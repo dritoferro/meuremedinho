@@ -19,7 +19,7 @@ class ApiGatewayResponse(
   }
 
   class Builder {
-    var LOG: Logger = LogManager.getLogger(ApiGatewayResponse.Builder::class.java)
+    var LOG: Logger = LogManager.getLogger(Builder::class.java)
     var objectMapper: ObjectMapper = ObjectMapper()
 
     var statusCode: Int = 200
@@ -32,18 +32,21 @@ class ApiGatewayResponse(
     fun build(): ApiGatewayResponse {
       var body: String? = null
 
-      if (rawBody != null) {
-        body = rawBody as String
-      }
-      else if (objectBody != null) {
-        try {
-          body = objectMapper.writeValueAsString(objectBody)
-        } catch (e: JsonProcessingException) {
-          LOG.error("failed to serialize object", e)
-          throw RuntimeException(e)
+      when {
+        rawBody != null -> {
+          body = rawBody as String
         }
-      } else if (binaryBody != null) {
-        body = String(Base64.getEncoder().encode(binaryBody), StandardCharsets.UTF_8)
+        objectBody != null -> {
+          try {
+            body = objectMapper.writeValueAsString(objectBody)
+          } catch (e: JsonProcessingException) {
+            LOG.error("failed to serialize object", e)
+            throw RuntimeException(e)
+          }
+        }
+        binaryBody != null -> {
+          body = String(Base64.getEncoder().encode(binaryBody), StandardCharsets.UTF_8)
+        }
       }
       return ApiGatewayResponse(statusCode, body, headers, base64Encoded)
     }
