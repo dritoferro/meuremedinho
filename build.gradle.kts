@@ -45,6 +45,8 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-annotations:2.11.0")
     api("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0")
 
+    api("com.amazon.alexa:ask-sdk:2.20.2")
+
     testImplementation(kotlin("test-junit"))
 }
 
