@@ -1,4 +1,4 @@
-package br.com.tagliaferrodev.meu_remedinho
+package br.com.tagliaferrodev.meu_remedinho.application
 
 import com.amazon.ask.dispatcher.exception.ExceptionHandler
 import com.amazon.ask.dispatcher.request.handler.HandlerInput

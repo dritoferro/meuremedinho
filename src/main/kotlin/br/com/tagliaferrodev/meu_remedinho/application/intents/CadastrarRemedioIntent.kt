@@ -1,7 +1,7 @@
-package br.com.tagliaferrodev.meu_remedinho.intents
+package br.com.tagliaferrodev.meu_remedinho.application.intents
 
-import br.com.tagliaferrodev.meu_remedinho.IntentNames
-import br.com.tagliaferrodev.meu_remedinho.domain.Remedio
+import br.com.tagliaferrodev.meu_remedinho.application.IntentNames
+import br.com.tagliaferrodev.meu_remedinho.application.request.CadastroRemedioRequest
 import com.amazon.ask.dispatcher.request.handler.HandlerInput
 import com.amazon.ask.dispatcher.request.handler.RequestHandler
 import com.amazon.ask.model.Response
@@ -21,7 +21,8 @@ class CadastrarRemedioIntent : RequestHandler {
     override fun handle(input: HandlerInput?): Optional<Response> {
         val helper = RequestHelper.forHandlerInput(input)
 
-        val medicamento = Remedio(
+        val medicamento = CadastroRemedioRequest(
+                userId = "",
                 medicamento = helper.getSlotValue("remedio").get(),
                 posologia = helper.getSlotValue("posologia").get(),
                 dosagem = helper.getSlotValue("dosagem").get(),

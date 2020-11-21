@@ -1,4 +1,4 @@
-package br.com.tagliaferrodev.meu_remedinho
+package br.com.tagliaferrodev.meu_remedinho.application
 
 enum class IntentNames(val nome: String) {
     SKILL_CADASTRAR_REMEDIO_INTENT("CadastrarRemedioIntent"),

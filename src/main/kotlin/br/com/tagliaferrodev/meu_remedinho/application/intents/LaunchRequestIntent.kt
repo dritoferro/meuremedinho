@@ -1,4 +1,4 @@
-package br.com.tagliaferrodev.meu_remedinho.intents
+package br.com.tagliaferrodev.meu_remedinho.application.intents
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput
 import com.amazon.ask.dispatcher.request.handler.RequestHandler
