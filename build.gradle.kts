@@ -29,11 +29,11 @@ repositories {
 
 // If requiring AWS JDK, uncomment the dependencyManagement to use the bill of materials
 //   https://aws.amazon.com/blogs/developer/managing-dependencies-with-aws-sdk-for-java-bill-of-materials-module-bom/
-//dependencyManagement {
-//    imports {
-//        mavenBom("software.amazon.awssdk:bom:2.13.18")
-//    }
-//}
+dependencyManagement {
+    imports {
+        mavenBom("software.amazon.awssdk:bom:2.15.33")
+    }
+}
 
 dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib:1.3.71")
@@ -46,6 +46,8 @@ dependencies {
     api("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0")
 
     api("com.amazon.alexa:ask-sdk:2.20.2")
+
+    api("software.amazon.awssdk:dynamodb")
 
     testImplementation(kotlin("test-junit"))
 }
