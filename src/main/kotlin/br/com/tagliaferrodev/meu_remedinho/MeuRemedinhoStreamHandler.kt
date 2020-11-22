@@ -15,20 +15,20 @@ class MeuRemedinhoStreamHandler : SkillStreamHandler(buildSkill()) {
     companion object {
         fun buildSkill(): Skill {
             return Skills.standard()
-                    .addRequestHandlers(
-                            LaunchRequestIntent(),
-                            CadastrarRemedioIntent(),
-                            ListarRemedioIntent(),
-                            RegistrarUsoIntent(),
-                            RemediosNaoTomadosIntent(),
-                            RemediosTomadosIntent(),
-                            CancelIntent(),
-                            HelpIntent(),
-                            NavigateHomeIntent(),
-                            StopIntent()
-                    )
-                    .addExceptionHandler(MeuRemedinhoExceptionHandler())
-                    .build()
+                .addRequestHandlers(
+                    LaunchRequestIntent(),
+                    CadastrarRemedioIntent(),
+                    ListarRemedioIntent(),
+                    RegistrarUsoIntent(),
+                    RemediosNaoTomadosIntent(),
+                    RemediosTomadosIntent(),
+                    CancelIntent(),
+                    HelpIntent(),
+                    NavigateHomeIntent(),
+                    StopIntent()
+                )
+                .addExceptionHandler(MeuRemedinhoExceptionHandler())
+                .build()
         }
     }
 

@@ -13,12 +13,13 @@ class LaunchRequestIntent : RequestHandler {
     }
 
     override fun handle(input: HandlerInput?): Optional<Response> {
-        val speechText = "Bem vindo ao Meu Remedinho, você pode dizer: cadastrar um remédio OU listar os remédios OU registrar o uso de um remédio OU remédios tomados OU remédios não tomados"
+        val speechText =
+            "Bem vindo ao Meu Remedinho, você pode dizer: cadastrar um remédio OU listar os remédios OU registrar o uso de um remédio OU remédios tomados OU remédios não tomados"
 
         return input?.responseBuilder
-                ?.withSpeech(speechText)
-                ?.withSimpleCard("MeuRemedinhoSkill", speechText)
-                ?.withReprompt(speechText)
-                ?.build()!!
+            ?.withSpeech(speechText)
+            ?.withSimpleCard("MeuRemedinhoSkill", speechText)
+            ?.withReprompt(speechText)
+            ?.build()!!
     }
 }

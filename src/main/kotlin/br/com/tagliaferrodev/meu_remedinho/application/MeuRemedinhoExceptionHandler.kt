@@ -19,7 +19,7 @@ class MeuRemedinhoExceptionHandler : ExceptionHandler {
 
     override fun handle(input: HandlerInput?, throwable: Throwable?): Optional<Response> {
         return input?.responseBuilder
-                ?.withSpeech("Ops, ocorreu um erro com seu pedido, por favor, tente novamente mais tarde.")
-                ?.build()!!
+            ?.withSpeech("Ops, ocorreu um erro com seu pedido, por favor, tente novamente mais tarde.")
+            ?.build()!!
     }
 }
