@@ -15,3 +15,5 @@
 .serverless
 
 sonarlint
+
+serverless.yml

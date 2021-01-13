@@ -1,0 +1,30 @@
+service: myservice
+# app and org for use with dashboard.serverless.com
+#app: my-app
+#org: my-org
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: java8
+  memorySize: 512 # Overwrite the default memory size. Default is 1024
+  timeout: 10
+
+  stage: dev
+  region: us-east-1
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource: "*"
+
+package:
+  artifact: build/libs/meu_remedinho-dev-all.jar
+
+functions:
+  launch:
+    handler: br.com.tagliaferrodev.meu_remedinho.MeuRemedinhoStreamHandler
+    events:
+      - alexaSkill: amzn1.ask.skill.xxxxx-xxxx-xxxxx-xxxx
