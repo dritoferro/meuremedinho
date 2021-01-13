@@ -11,11 +11,10 @@ import com.amazon.ask.request.RequestHelper
 import org.slf4j.LoggerFactory
 import java.util.*
 
-class CadastrarRemedioIntent(
-    private val service: RemedioService
-) : RequestHandler {
+class CadastrarRemedioIntent : RequestHandler {
 
     private val logger = LoggerFactory.getLogger(javaClass)
+    private val service: RemedioService = RemedioService()
 
     override fun canHandle(input: HandlerInput?): Boolean {
         return input?.matches(Predicates.intentName(IntentNames.SKILL_CADASTRAR_REMEDIO_INTENT.nome)) ?: false
