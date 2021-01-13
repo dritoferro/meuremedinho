@@ -13,6 +13,15 @@ class HelpIntent : RequestHandler {
     }
 
     override fun handle(input: HandlerInput?): Optional<Response> {
-        TODO("Not yet implemented")
+        val speechText =
+            """As seguintes ações estão disponíveis no momento: Cadastro de um remédio; Registro de Uso; 
+                Listar remédios cadastros; Listar remédios tomados e não tomados.
+            """.trimMargin()
+
+        return input?.responseBuilder
+            ?.withSpeech(speechText)
+            ?.withSimpleCard("MeuRemedinhoSkill", speechText)
+            ?.withReprompt(speechText)
+            ?.build()!!
     }
 }

@@ -13,6 +13,12 @@ class StopIntent : RequestHandler {
     }
 
     override fun handle(input: HandlerInput?): Optional<Response> {
-        TODO("Not yet implemented")
+        val speechText = "Até mais!"
+
+        return input?.responseBuilder
+            ?.withSpeech(speechText)
+            ?.withSimpleCard("MeuRemedinhoSkill", speechText)
+            ?.withShouldEndSession(true)
+            ?.build()!!
     }
 }

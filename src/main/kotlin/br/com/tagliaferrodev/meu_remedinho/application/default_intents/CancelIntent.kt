@@ -13,6 +13,12 @@ class CancelIntent : RequestHandler {
     }
 
     override fun handle(input: HandlerInput?): Optional<Response> {
-        TODO("Not yet implemented")
+        val speechText = "Ação cancelada"
+
+        return input?.responseBuilder
+            ?.withSpeech(speechText)
+            ?.withSimpleCard("MeuRemedinhoSkill", speechText)
+            ?.withReprompt(speechText)
+            ?.build()!!
     }
 }
