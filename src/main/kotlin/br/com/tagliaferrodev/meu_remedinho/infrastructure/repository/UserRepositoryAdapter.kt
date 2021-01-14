@@ -26,9 +26,7 @@ class UserRepositoryAdapter : UserRepository {
 
         val item = Item().withPrimaryKey("Id", user.id).withString("DeviceId", user.deviceId)
 
-        val result = table.putItem(item)
-
-        logger.info("Save Result ---> ${result.item}")
+        table.putItem(item)
     }
 
     override fun findById(id: String): User? {

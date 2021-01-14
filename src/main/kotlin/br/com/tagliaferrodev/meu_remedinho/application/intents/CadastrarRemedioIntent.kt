@@ -1,13 +1,14 @@
 package br.com.tagliaferrodev.meu_remedinho.application.intents
 
 import br.com.tagliaferrodev.meu_remedinho.application.IntentNames
+import br.com.tagliaferrodev.meu_remedinho.application.extension.getParameter
+import br.com.tagliaferrodev.meu_remedinho.application.extension.getUserId
 import br.com.tagliaferrodev.meu_remedinho.application.request.CadastroRemedioRequest
 import br.com.tagliaferrodev.meu_remedinho.core.remedio.RemedioService
 import com.amazon.ask.dispatcher.request.handler.HandlerInput
 import com.amazon.ask.dispatcher.request.handler.RequestHandler
 import com.amazon.ask.model.Response
 import com.amazon.ask.request.Predicates
-import com.amazon.ask.request.RequestHelper
 import org.slf4j.LoggerFactory
 import java.util.*
 
@@ -21,15 +22,14 @@ class CadastrarRemedioIntent : RequestHandler {
     }
 
     override fun handle(input: HandlerInput?): Optional<Response> {
-        val helper = RequestHelper.forHandlerInput(input)
-
         val medicamento = CadastroRemedioRequest(
-            userId = "",
-            medicamento = helper.getSlotValue("remedio").get(),
-            posologia = helper.getSlotValue("posologia").get(),
-            dosagem = helper.getSlotValue("dosagem").get(),
-            apelido = helper.getSlotValue("apelido").get()
+            userId = input.getUserId()!!,
+            medicamento = input.getParameter("remedio"),
+            posologia = input.getParameter("posologia"),
+            dosagem = input.getParameter("dosagem"),
+            apelido = input.getParameter("apelido")
         )
+
         logger.info("Recebido request de cadastro ----> $medicamento")
 
         service.cadastro(medicamento.toCadastroDTO())
@@ -38,10 +38,12 @@ class CadastrarRemedioIntent : RequestHandler {
 
         val speechText = "Remédio cadastrado com sucesso!"
 
+        val repromptText = "O que deseja fazer agora ?"
+
         return input?.responseBuilder
             ?.withSpeech(speechText)
             ?.withSimpleCard("CadastroRemedio", speechText)
-            ?.withReprompt(speechText)
+            ?.withReprompt(repromptText)
             ?.build()!!
     }
 }

@@ -1,6 +1,7 @@
 package br.com.tagliaferrodev.meu_remedinho.core.remedio
 
 import br.com.tagliaferrodev.meu_remedinho.core.remedio.ports.dto.CadastroRemedioDTO
+import java.util.*
 
 data class Remedio(
     val userId: String,
@@ -9,6 +10,9 @@ data class Remedio(
     val dosagem: String,
     val apelido: String?
 ) {
+
+    var id: String = UUID.randomUUID().toString()
+
     companion object {
         fun create(dto: CadastroRemedioDTO) = Remedio(
             userId = dto.userId,
