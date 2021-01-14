@@ -21,12 +21,16 @@ class UserRepositoryAdapter : UserRepository {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun save(user: User) {
+        logger.info("Start saving user")
+
         val client = DbConfig.client()
         val table = client.getTable(TABLE_NAME)
 
         val item = Item().withPrimaryKey("Id", user.id).withString("DeviceId", user.deviceId)
 
         table.putItem(item)
+
+        logger.info("Saved user with id ${user.id}")
     }
 
     override fun findById(id: String): User? {
@@ -34,11 +38,9 @@ class UserRepositoryAdapter : UserRepository {
 
         val client = DbConfig.client()
 
-        logger.info("Successfully connected")
-
         val search = client.getTable(TABLE_NAME).getItem("Id", id) ?: return null
 
-        logger.info("Search result ---> $search")
+        logger.info("Founded user with id $id")
 
         return UserTable(
             id = search.getString("Id"),

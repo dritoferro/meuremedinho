@@ -4,7 +4,7 @@ import br.com.tagliaferrodev.meu_remedinho.core.remedio.Remedio
 import br.com.tagliaferrodev.meu_remedinho.core.remedio.ports.RemedioRepository
 import br.com.tagliaferrodev.meu_remedinho.infrastructure.config.DbConfig
 import com.amazonaws.services.dynamodbv2.document.Item
-import com.amazonaws.services.dynamodbv2.document.spec.GetItemSpec
+import com.amazonaws.services.dynamodbv2.document.QueryFilter
 import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec
 import org.slf4j.LoggerFactory
 
@@ -39,6 +39,7 @@ data class RemedioTable(
 }
 
 private const val TABLE_NAME = "CadastroRemedios"
+private const val USERID_INDEX = "UserId-index"
 
 class RemedioRepositoryAdapter : RemedioRepository {
 
@@ -52,46 +53,52 @@ class RemedioRepositoryAdapter : RemedioRepository {
         val item = fillColumns(remedio)
 
         client.getTable(TABLE_NAME).putItem(item)
+
+        logger.info("Successfully saved a new medicamento with id ${remedio.id}")
     }
 
     override fun findByApelidoAndUser(apelido: String, userId: String): Remedio? {
-        val client = DbConfig.client()
-
         logger.info("Search medicamento by apelido $apelido")
 
-        val query = GetItemSpec().withPrimaryKey(
-            "UserId",
-            userId,
-            "Apelido",
-            apelido
-        )
+        val client = DbConfig.client()
+        val table = client.getTable(TABLE_NAME)
+        val index = table.getIndex(USERID_INDEX)
 
-        val result = client.getTable(TABLE_NAME).getItem(query) ?: return null
+        val query = QuerySpec().withHashKey("UserId", userId)
+            .withQueryFilters(QueryFilter("Apelido").eq(apelido))
 
-        return RemedioTable.fromItem(result).toRemedio()
+        val result = index.query(query) ?: return null
+
+        result.forEach {
+            logger.info(it.toJSONPretty())
+        }
+
+        logger.info("Found a medicamento with this apelido")
+
+        return RemedioTable.fromItem(result.first()).toRemedio()
     }
 
     override fun findByMedicamentoAndUser(medicamento: String, userId: String): Remedio? {
-        val client = DbConfig.client()
-
         logger.info("Search medicamento by name $medicamento")
 
-        val query = GetItemSpec().withPrimaryKey(
-            "UserId",
-            userId,
-            "Medicamento",
-            medicamento
-        )
+        val client = DbConfig.client()
+        val table = client.getTable(TABLE_NAME)
+        val index = table.getIndex(USERID_INDEX)
 
-        val result = client.getTable(TABLE_NAME).getItem(query) ?: return null
+        val query = QuerySpec().withHashKey("UserId", userId)
+            .withQueryFilters(QueryFilter("Medicamento").eq(medicamento))
 
-        return RemedioTable.fromItem(result).toRemedio()
+        val result = index.query(query) ?: return null
+
+        logger.info("Found a medicamento with this name")
+
+        return RemedioTable.fromItem(result.first()).toRemedio()
     }
 
     override fun findAllMedicamentos(userId: String): List<Remedio> {
         val client = DbConfig.client()
         val table = client.getTable(TABLE_NAME)
-        val index = table.getIndex("UserId-index")
+        val index = table.getIndex(USERID_INDEX)
 
         logger.info("Search all medicamentos by user $userId")
 
