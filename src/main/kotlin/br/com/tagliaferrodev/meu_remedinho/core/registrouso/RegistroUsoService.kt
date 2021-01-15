@@ -51,4 +51,22 @@ class RegistroUsoService {
             }
         }
     }
+
+    fun findRemediosNaoTomadosToday(userId: String): List<String> {
+        logger.info("Searching for medicamentos não tomados for user $userId")
+
+        val medicamentos = repository.findByUserForToday(userId)
+
+        val remedios = remedioService.findAllByUser(userId)
+
+        return remedios.mapNotNull { remedio ->
+            val medicamentoNaoTomado = medicamentos.find { it.medicamentoId == remedio.id } == null
+
+            if (medicamentoNaoTomado) {
+                remedio.apelido ?: remedio.medicamento
+            } else {
+                null
+            }
+        }
+    }
 }

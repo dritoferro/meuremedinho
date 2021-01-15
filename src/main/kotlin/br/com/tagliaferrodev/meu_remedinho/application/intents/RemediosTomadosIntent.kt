@@ -28,7 +28,7 @@ class RemediosTomadosIntent : RequestHandler {
         val result = service.findRemediosTomadosToday(userId!!)
 
         val speechText = if (result.isNotEmpty()) {
-            result.joinToString(separator = ";")
+            "Os seguintes medicamentos não foram utilizados hoje: ".plus(result.joinToString(separator = ";"))
         } else {
             "Você não fez uso de nenhum medicamento hoje"
 
