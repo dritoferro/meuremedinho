@@ -67,10 +67,10 @@ class RemedioRepositoryAdapter : RemedioRepository {
         val query = QuerySpec().withHashKey("UserId", userId)
             .withQueryFilters(QueryFilter("Apelido").eq(apelido))
 
-        val result = index.query(query) ?: return null
+        val result = index.query(query)
 
-        result.forEach {
-            logger.info(it.toJSONPretty())
+        if (result.first() == null) {
+            return null
         }
 
         logger.info("Found a medicamento with this apelido")
@@ -88,7 +88,11 @@ class RemedioRepositoryAdapter : RemedioRepository {
         val query = QuerySpec().withHashKey("UserId", userId)
             .withQueryFilters(QueryFilter("Medicamento").eq(medicamento))
 
-        val result = index.query(query) ?: return null
+        val result = index.query(query)
+
+        if (result.first() == null) {
+            return null
+        }
 
         logger.info("Found a medicamento with this name")
 

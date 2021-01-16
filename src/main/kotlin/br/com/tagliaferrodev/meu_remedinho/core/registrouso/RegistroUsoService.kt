@@ -22,8 +22,17 @@ class RegistroUsoService {
         val datetime =
             LocalDateTime.of(now.year, now.month, now.dayOfMonth, hourSplitted[0].toInt(), hourSplitted[1].toInt())
 
-        val remedio = remedioService.findByApelido(medicamento, userId)
-            ?: remedioService.findByMedicamento(medicamento, userId) ?: throw RuntimeException("Remédio não encontrado")
+        var remedio = remedioService.findByApelido(medicamento, userId)
+
+        if (remedio == null) {
+            logger.warn("Remedio não encontrado por apelido")
+            remedio = remedioService.findByMedicamento(medicamento, userId)
+        }
+
+        if (remedio == null) {
+            logger.warn("Remedio não encontrado por nome")
+            throw RuntimeException("Remédio não encontrado")
+        }
 
         logger.info("Medicamento found: ${remedio.medicamento}")
 
