@@ -69,7 +69,7 @@ class RemedioRepositoryAdapter : RemedioRepository {
 
         val result = index.query(query)
 
-        if (result.first() == null) {
+        if (result.firstOrNull() == null) {
             return null
         }
 
@@ -90,7 +90,7 @@ class RemedioRepositoryAdapter : RemedioRepository {
 
         val result = index.query(query)
 
-        if (result.first() == null) {
+        if (result.firstOrNull() == null) {
             return null
         }
 
